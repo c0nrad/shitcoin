@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
 	"math/big"
 )
 
@@ -22,9 +21,8 @@ const MaxUint = ^uint32(0)
 // Also, I start at the blocks previous nonce value...
 func (b *Block) Mine() bool {
 	nonce := uint32(b.Nonce)
-	for nonce = 0; nonce < MaxUint; nonce++ {
+	for nonce = nonce; nonce < MaxUint; nonce++ {
 		b.Nonce = nonce
-		fmt.Println(b.Nonce)
 
 		if b.IsValid() {
 			return true

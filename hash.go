@@ -1,10 +1,16 @@
 package main
 
-import "encoding/hex"
 import "crypto/sha256"
+import "golang.org/x/crypto/ripemd160"
 
-func Hash(in []byte) (out []byte) {
+func Hash(in []byte) []byte {
 	h := sha256.New()
+	h.Write(in)
+	return h.Sum(nil)
+}
+
+func RIPEMD160(in []byte) []byte {
+	h := ripemd160.New()
 	h.Write(in)
 	return h.Sum(nil)
 }
@@ -14,26 +20,4 @@ func PairHash(p1 []byte, p2 []byte) (out []byte) {
 	hashPair := Hash(append(p1, p2...))
 	out = Hash(hashPair)
 	return ToHex(Reverse(out))
-}
-
-func Reverse(in []byte) (out []byte) {
-	out = make([]byte, len(in))
-	for i, c := range in {
-		out[len(in)-1-i] = c
-	}
-	return out
-}
-
-func ToHex(in []byte) (out []byte) {
-	length := hex.EncodedLen(len(in))
-	out = make([]byte, length)
-	hex.Encode(out, in)
-	return out
-}
-
-func FromHex(in []byte) (out []byte) {
-	length := hex.DecodedLen(len(in))
-	out = make([]byte, length)
-	hex.Decode(out, in)
-	return out
 }

@@ -26,3 +26,14 @@ func TestPairHash(t *testing.T) {
 		t.Error("Failed to correctly take pair hash")
 	}
 }
+
+func TestRipeMD160(t *testing.T) {
+	in := []byte("The quick brown fox jumps over the lazy dog")
+	sln := []byte("37f332f68db77bd9d7edd4969571ad671cf9dd3b")
+	if !bytes.Equal(RIPEMD160(in), FromHex(sln)) {
+		t.Error("Failed to correctly take ripe hash")
+	}
+}
+
+// RIPEMD-160("The quick brown fox jumps over the lazy dog") =
+// 37f332f68db77bd9d7edd4969571ad671cf9dd3b
